@@ -13,6 +13,8 @@
       var ballY = 50;
       var ballSpeedX = 5;
       var ballSpeedY = 2;
+      var player1Score = 0;
+      var player2Score = 0;
       var paddle1Y = 250;
       var paddle2Y = 250;
       const PADDLE_HEIGHT = 100;
@@ -54,8 +56,19 @@
         ballY = canvas.width / 2;
       }
 
+      function computerMovement() {
+        var paddle2YCenter = paddle2Y + (PADDLE_HEIGHT/2);
+        if(paddle2YCenter < ballY-20) {
+          paddle2Y += 6;
+        }else if(paddle2YCenter > ballY+20){
+          paddle2Y -= 6;
+        }
+      }
+
       // ball animation function
       function move() {
+
+        computerMovement()
         ballX = ballX + ballSpeedX;
         ballY = ballY + ballSpeedY;
 
@@ -64,6 +77,7 @@
             ballSpeedX = -ballSpeedX;
           } else {
             ballReset();
+            player1Score++;
           }
         }
         if (ballX < 0) {
@@ -71,6 +85,7 @@
             ballSpeedX = -ballSpeedX;
           } else {
             ballReset();
+            player2Score++;
           } 
         }
         if (ballY > canvas.height) {
@@ -96,6 +111,11 @@
         // draws the ball
         // colorRect(ballX, 200, 10, 10, "red");
         colorCircle(ballX, ballY, 10, "red");
+
+        canvasCtx.fillStyle = 'white';
+        canvasCtx.font = '25px calibri';
+        canvasCtx.fillText(player1Score, 100, 100);
+        canvasCtx.fillText(player2Score, canvas.width-100, 100);
       }
 
       // features of the ball
