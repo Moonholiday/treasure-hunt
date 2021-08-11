@@ -16,6 +16,7 @@
       var paddle1Y = 250;
       var paddle2Y = 250;
       const PADDLE_HEIGHT = 100;
+      const PADDLE_THICKNESS = 10;
 
       // knowing and setting the mouse position
       function calculateMousePos(evt) {
@@ -59,14 +60,18 @@
         ballY = ballY + ballSpeedY;
 
         if (ballX > canvas.width) {
-          ballSpeedX = -ballSpeedX;
+          if (ballY > paddle2Y && ballY < paddle2Y + PADDLE_HEIGHT) {
+            ballSpeedX = -ballSpeedX;
+          } else {
+            ballReset();
+          }
         }
         if (ballX < 0) {
           if (ballY > paddle1Y && ballY < paddle1Y + PADDLE_HEIGHT) {
             ballSpeedX = -ballSpeedX;
           } else {
             ballReset();
-          }
+          } 
         }
         if (ballY > canvas.height) {
           ballSpeedY = -ballSpeedY;
@@ -83,7 +88,10 @@
         colorRect(0, 0, canvas.width, canvas.height, "black");
 
         // left player paddle
-        colorRect(0, paddle1Y, 15, PADDLE_HEIGHT, "cyan");
+        colorRect(0, paddle1Y, PADDLE_THICKNESS, PADDLE_HEIGHT, "cyan");
+
+        // right player paddle
+        colorRect(canvas.width - PADDLE_THICKNESS, paddle2Y, 15, PADDLE_HEIGHT, "cyan");
 
         // draws the ball
         // colorRect(ballX, 200, 10, 10, "red");
